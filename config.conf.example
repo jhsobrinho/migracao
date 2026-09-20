@@ -1,0 +1,63 @@
+## =============================================================================
+##  ARQUIVO DE CONFIGURAÇÃO — copie para config.conf e edite antes de rodar
+##  cp config.conf.example config.conf && nano config.conf
+## =============================================================================
+
+## ---- Geral -------------------------------------------------------------
+TZ="America/Sao_Paulo"
+ACME_EMAIL="admin@seudominio.com.br"          # e-mail usado no Let's Encrypt
+SSH_PORT="22"                                  # troque se for mudar a porta do SSH
+
+## ---- Domínios dos 3 sites ----------------------------------------------
+## Formato: "dominio|tipo|porta_interna"
+##   tipo:  static  -> nginx servindo /opt/stacks/<nome>/public
+##          app     -> container próprio (você define a imagem depois)
+SITE1_NAME="site1"
+SITE1_DOMAIN="exemplo1.com.br"
+SITE1_TYPE="static"
+SITE1_PORT="80"
+
+SITE2_NAME="site2"
+SITE2_DOMAIN="exemplo2.com.br"
+SITE2_TYPE="static"
+SITE2_PORT="80"
+
+SITE3_NAME="site3"
+SITE3_DOMAIN="exemplo3.com.br"
+SITE3_TYPE="app"
+SITE3_PORT="3000"
+
+## ---- Traefik ------------------------------------------------------------
+TRAEFIK_DOMAIN="traefik.exemplo1.com.br"       # painel do Traefik (protegido por senha)
+TRAEFIK_USER="admin"
+TRAEFIK_PASS=""                                 # vazio = gera senha aleatória
+
+## ---- Painéis (módulo 09) ------------------------------------------------
+INSTALL_PORTAINER="y"
+PORTAINER_DOMAIN="portainer.exemplo1.com.br"
+
+INSTALL_PGADMIN="y"
+PGADMIN_DOMAIN="pgadmin.exemplo1.com.br"
+PGADMIN_EMAIL="admin@seudominio.com.br"        # vira o login do pgAdmin
+
+INSTALL_N8N="y"
+N8N_DOMAIN="n8n.exemplo1.com.br"
+
+## ---- PostgreSQL ---------------------------------------------------------
+PG_VERSION="16"
+PG_SUPERUSER="postgres"
+PG_PASSWORD=""                                  # vazio = gera senha aleatória
+PG_EXPOSE_LOCALHOST="y"                         # publica 127.0.0.1:5432 (acesso via túnel SSH)
+
+## ---- Mailcow ------------------------------------------------------------
+MAILCOW_HOSTNAME="mail.exemplo1.com.br"
+MAILCOW_PATH="/opt/mailcow-dockerized"
+MAILCOW_SKIP_CLAMAV="n"                         # y em VPS com menos de 8 GB de RAM
+MAILCOW_SKIP_SOGO="n"                           # y se não quiser webmail/groupware SOGo
+## Domínios extras que o mailcow vai atender (autoconfig/autodiscover)
+MAILCOW_EXTRA_DOMAINS="exemplo1.com.br exemplo2.com.br exemplo3.com.br"
+
+## ---- Backup -------------------------------------------------------------
+BACKUP_DIR="/opt/backups"
+BACKUP_RETENTION_DAYS="14"
+BACKUP_HOUR="3"                                 # hora do cron diário (0-23)
