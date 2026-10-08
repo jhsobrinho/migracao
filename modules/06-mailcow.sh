@@ -30,8 +30,14 @@ else
     confirma "Continuar mesmo assim?" "n" || exit 1
 fi
 
-if ss -tlpn | grep -E -w '25|465|587|143|993|110|995|4190' | grep -qv docker; then
-    aviso "Há serviços ocupando portas de e-mail. Remova postfix/exim do host: apt purge postfix exim4"
+if ss -tlpn | grep -E ':(25|465|587|143|993|110|995|4190) ' | grep -qv docker; then
+    aviso "Há serviços ocupando portas de e-mail no host (exim4/postfix)"
+    if confirma "Remover exim4/postfix do host agora?" "s"; then
+        systemctl disable --now exim4 postfix >/dev/null 2>&1 || true
+        DEBIAN_FRONTEND=noninteractive apt-get purge -y exim4 exim4-base exim4-config exim4-daemon-light postfix >/dev/null 2>&1 || true
+        ss -tlpn | grep -qE ':25 ' && falha "Porta 25 ainda ocupada" && exit 1
+        ok "Portas de e-mail liberadas"
+    fi
 fi
 
 ## ---- clone --------------------------------------------------------------

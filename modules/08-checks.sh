@@ -73,7 +73,12 @@ fi
 titulo "Blacklists do IP"
 for bl in zen.spamhaus.org bl.spamcop.net b.barracudacentral.org; do
     rev=$(echo "$IP" | awk -F. '{print $4"."$3"."$2"."$1}')
-    if dig +short "${rev}.${bl}" | grep -q '127\.'; then falha "LISTADO em ${bl}"; else ok "limpo em ${bl}"; fi
+    r=$(dig +short "${rev}.${bl}" | head -1)
+    case "$r" in
+        127.255.255.*) aviso "${bl}: resolver público bloqueado, consulte https://check.spamhaus.org/" ;;
+        127.*)         falha "LISTADO em ${bl} (${r})" ;;
+        *)             ok "limpo em ${bl}" ;;
+    esac
 done
 
 titulo "Recursos"
