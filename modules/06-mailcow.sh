@@ -75,6 +75,7 @@ set_conf HTTPS_PORT 8443
 set_conf HTTPS_BIND ""
 set_conf SKIP_LETS_ENCRYPT y      # quem emite o certificado é o Traefik
 set_conf HTTP_REDIRECT n          # TLS termina no Traefik; sem redirect interno
+set_conf ENABLE_IPV6 false        # Contabo não tem PTR IPv6 por padrão; Gmail recusa envio sem PTR
 set_conf AUTODISCOVER_SAN n
 set_conf SKIP_CLAMD "${MAILCOW_SKIP_CLAMAV}"
 set_conf SKIP_SOGO  "${MAILCOW_SKIP_SOGO}"
