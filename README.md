@@ -190,6 +190,10 @@ Túnel para abrir o Postgres no DBeaver/pgAdmin do seu PC:
 | Não envia nada para fora | porta 25 de saída clampada | ticket na Contabo |
 | Porta interna exposta | regra `DOCKER-USER` sumiu | `systemctl restart docker-user-rules` |
 | `apt` reclama de postfix no host | MTA nativo instalado | `apt purge postfix exim4` |
+| Painel do mailcow em loop de redirect | `HTTP_REDIRECT=y` atrás do Traefik | `HTTP_REDIRECT=n` no `mailcow.conf` + `docker compose up -d nginx-mailcow` |
+| "Falha no login" com admin/moohoo | a tela inicial é só para caixas de e-mail | entrar em `/admin`; senha perdida: `helper-scripts/mailcow-reset-admin.sh` |
+| Gmail recusa com 5.7.25 "no PTR" | postfix saiu pelo IPv6 da VPS (sem PTR) | `ENABLE_IPV6=false` no `mailcow.conf` + `docker compose down && up -d` |
+| Módulo 8 diz "LISTADO em Spamhaus" com 127.255.255.x | resolver público bloqueado, não é listagem | confira em https://check.spamhaus.org/ |
 
 ---
 
